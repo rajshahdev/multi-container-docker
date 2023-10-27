@@ -1,0 +1,33 @@
+version: '3'
+services:
+  nginx:
+    image: "rajshahdev/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"
+  frontend:
+    image: "rajshahdev/multi-client"
+    mem_limit: 128m
+    hostname: frontend
+    environment:
+      - WDS_SOCKET_PORT=0
+  backend:
+    image: "rajshahdev/multi-server"
+    mem_limit: 128m
+    hostname: backend
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
+  worker:
+    image: "rajshahdev/multi-worker"
+    mem_limit: 128m
+    hostname: worker
+    environment:
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
